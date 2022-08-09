@@ -28,15 +28,13 @@ class ApiCall {
                 formValues.files[i].key, formValues.files[i].value));
           }
         }
-        Map<String, dynamic> headerParameters = {
-          // 'Authorization': getPreference.read(ApiConst.TOKEN_PREFERENCE_KEY) ?? ''
-        };
+        Map<String, dynamic> headerParameters = {};
         if (header != null) {
           headerParameters.addEntries(header.entries);
         }
 
         // ignore: always_specify_types
-        Response response;
+        dio_obj.Response response;
         if (methodType == RestMethod.get) {
           response = await AvioInterceptors.make().get(serviceUrl,
               queryParameters: params,
@@ -98,7 +96,92 @@ class ApiCall {
           }
         }
       } on DioError catch (e) {
-        dioErrorCall(dioError: e, error: error);
+        dioErrorCall(dioErrorType: e.type, error: error);
+      } finally {
+        if (showLoader) {
+          controller.isLoading.value = false;
+        }
+      }
+    } else {
+      error?.call(null, {
+        'title': 'No internet access',
+        'message':
+            'Could not connect to server, please check your network connection'
+      });
+    }
+  }
+
+  void graphQL({
+    required String document,
+    required String serviceUrl,
+    required bool showLoader,
+    required GQLmethod methodType,
+    required Function(int?, Map<String, dynamic>) success,
+    Function(int?, Map<String, dynamic>)? error,
+    Function(int?, dynamic)? invalidResponse,
+    Map<String, dynamic> variables = const {},
+    ReturnType returnType = ReturnType.map,
+    List<int> successStatusCodes = const [200],
+    Map<String, String>? header,
+    ErrorPolicy? errorPolicy,
+    FetchPolicy? fetchPolicy,
+    CacheRereadPolicy? cacheRereadPolicy,
+    Object? Function(Map<String, dynamic>)? parserFn,
+    Duration? pollInterval,
+    Object? optimisticResult,
+    String? opertationName,
+  }) {
+    if (controller.isConnected().value) {
+      try {
+        if (showLoader) {
+          controller.isLoading.value = true;
+        }
+        if (methodType == GQLmethod.quey) {
+          GQLconfig.getGQLclient(url: serviceUrl, header: header).runQuery(
+            QueryOptions(
+                document: gql(document),
+                variables: variables,
+                operationName: opertationName,
+                errorPolicy: errorPolicy,
+                fetchPolicy: fetchPolicy,
+                cacheRereadPolicy: cacheRereadPolicy,
+                pollInterval: pollInterval,
+                parserFn: parserFn,
+                optimisticResult: optimisticResult),
+            timeout: (timeoutMessage) => dioErrorCall(
+                dioErrorType: DioErrorType.connectTimeout, error: error),
+          );
+        }
+        if (methodType == GQLmethod.mutation) {
+          GQLconfig.getGQLclient(url: serviceUrl, header: header).runMutation(
+            MutationOptions(
+                document: gql(document),
+                variables: variables,
+                operationName: opertationName,
+                errorPolicy: errorPolicy,
+                fetchPolicy: fetchPolicy,
+                cacheRereadPolicy: cacheRereadPolicy,
+                parserFn: parserFn,
+                optimisticResult: optimisticResult),
+            timeout: (timeoutMessage) => dioErrorCall(
+                dioErrorType: DioErrorType.connectTimeout, error: error),
+          );
+        }
+        if (methodType == GQLmethod.stream) {
+          GQLconfig.getGQLclient(url: serviceUrl, header: header).runSubscribe(
+              SubscriptionOptions(
+                  document: gql(document),
+                  variables: variables,
+                  operationName: opertationName,
+                  errorPolicy: errorPolicy,
+                  fetchPolicy: fetchPolicy,
+                  cacheRereadPolicy: cacheRereadPolicy,
+                  parserFn: parserFn,
+                  optimisticResult: optimisticResult),
+              timeout: (timeoutMessage) => dioErrorCall(
+                  dioErrorType: DioErrorType.connectTimeout, error: error));
+        }
+      } catch (e) {
       } finally {
         if (showLoader) {
           controller.isLoading.value = false;
@@ -114,10 +197,10 @@ class ApiCall {
   }
 
   void dioErrorCall({
-    required DioError dioError,
+    required DioErrorType dioErrorType,
     Function(int?, Map<String, dynamic>)? error,
   }) {
-    switch (dioError.type) {
+    switch (dioErrorType) {
       case DioErrorType.other:
         error?.call(null, {
           'title': StringAssets.labelConnectionError,

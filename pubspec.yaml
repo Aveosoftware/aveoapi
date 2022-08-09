@@ -13,6 +13,8 @@ dependencies:
   dio: ^4.0.6
   flutter:
     sdk: flutter
+  gql_dio_link: ^0.2.2
+  graphql: ^5.1.1
   internet_connection_checker: ^0.0.1+4
   pretty_dio_logger: ^1.2.0-beta-1
 
