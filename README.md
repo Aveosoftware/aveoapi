@@ -23,13 +23,9 @@ Avio is working towards making api calls as easy as possible for developers
 
 ## TODO
 
-[x] Handle REST-API calls  
-[x] Satus widgets  
-[]  Intigrate alice package for debugging  
-[]  Handle GraphQL calls  
-[]  Handle Socket calls  
-[]  Handle gRPC calls
-
+✅ &ensp;Handle REST-API calls  
+✅ &ensp;Handle GraphQL calls  
+✅ &ensp;Satus widgets  
 ## Usage
 
 To use this package, First you need to initailize this Avio.init() preferably in main(). And if you need to add any Dio interceptors, you can add them like this.

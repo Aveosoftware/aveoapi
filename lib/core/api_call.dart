@@ -118,10 +118,7 @@ class ApiCall {
     required GQLmethod methodType,
     required Function(int?, Map<String, dynamic>) success,
     Function(int?, Map<String, dynamic>)? error,
-    Function(int?, dynamic)? invalidResponse,
     Map<String, dynamic> variables = const {},
-    ReturnType returnType = ReturnType.map,
-    List<int> successStatusCodes = const [200],
     Map<String, String>? header,
     ErrorPolicy? errorPolicy,
     FetchPolicy? fetchPolicy,
@@ -130,14 +127,16 @@ class ApiCall {
     Duration? pollInterval,
     Object? optimisticResult,
     String? opertationName,
-  }) {
+  }) async {
     if (controller.isConnected().value) {
       try {
         if (showLoader) {
           controller.isLoading.value = true;
         }
         if (methodType == GQLmethod.quey) {
-          GQLconfig.getGQLclient(url: serviceUrl, header: header).runQuery(
+          QueryResult<Object?> response =
+              await GQLconfig.getGQLclient(url: serviceUrl, header: header)
+                  .runQuery(
             QueryOptions(
                 document: gql(document),
                 variables: variables,
@@ -151,9 +150,19 @@ class ApiCall {
             timeout: (timeoutMessage) => dioErrorCall(
                 dioErrorType: DioErrorType.connectTimeout, error: error),
           );
+          if (response.hasException) {
+            error?.call(null, {
+              'title': 'Error',
+              'message': response.exception,
+            });
+          } else {
+            success.call(200, response.data ?? {});
+          }
         }
         if (methodType == GQLmethod.mutation) {
-          GQLconfig.getGQLclient(url: serviceUrl, header: header).runMutation(
+          QueryResult<Object?> response =
+              await GQLconfig.getGQLclient(url: serviceUrl, header: header)
+                  .runMutation(
             MutationOptions(
                 document: gql(document),
                 variables: variables,
@@ -166,22 +175,36 @@ class ApiCall {
             timeout: (timeoutMessage) => dioErrorCall(
                 dioErrorType: DioErrorType.connectTimeout, error: error),
           );
+          if (response.hasException) {
+            error?.call(null, {
+              'title': 'Error',
+              'message': response.exception,
+            });
+          } else {
+            success.call(200, response.data ?? {});
+          }
         }
         if (methodType == GQLmethod.stream) {
-          GQLconfig.getGQLclient(url: serviceUrl, header: header).runSubscribe(
-              SubscriptionOptions(
-                  document: gql(document),
-                  variables: variables,
-                  operationName: opertationName,
-                  errorPolicy: errorPolicy,
-                  fetchPolicy: fetchPolicy,
-                  cacheRereadPolicy: cacheRereadPolicy,
-                  parserFn: parserFn,
-                  optimisticResult: optimisticResult),
-              timeout: (timeoutMessage) => dioErrorCall(
-                  dioErrorType: DioErrorType.connectTimeout, error: error));
+          Stream<QueryResult<Object?>> response =
+              await GQLconfig.getGQLclient(url: serviceUrl, header: header)
+                  .runSubscribe(
+                      SubscriptionOptions(
+                          document: gql(document),
+                          variables: variables,
+                          operationName: opertationName,
+                          errorPolicy: errorPolicy,
+                          fetchPolicy: fetchPolicy,
+                          cacheRereadPolicy: cacheRereadPolicy,
+                          parserFn: parserFn,
+                          optimisticResult: optimisticResult),
+                      timeout: (timeoutMessage) => dioErrorCall(
+                          dioErrorType: DioErrorType.connectTimeout,
+                          error: error));
+          success.call(null, {'tittle': 'Success', 'message': response});
         }
       } catch (e) {
+        error?.call(
+            null, {'tittle': 'Error', 'message': 'Something went wrong'});
       } finally {
         if (showLoader) {
           controller.isLoading.value = false;
