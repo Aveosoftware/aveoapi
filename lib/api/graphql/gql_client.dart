@@ -5,11 +5,11 @@ class GQLclient extends GraphQLClient {
 
   GQLclient(
       {required super.link, required super.cache, super.defaultPolicies}) {
-    defaultPolicies;
-    queryManager = QueryManager(
-      link: link,
-      cache: cache,
-    );
+    // defaultPolicies;
+    // queryManager = QueryManager(
+    //   link: link,
+    //   cache: cache,
+    // );
   }
 
   // /// The default [Policies] to set for each client action

@@ -85,6 +85,21 @@ ApiCall.instance.rest(
 );
 ```
 
+```dart
+//To make GraphQL calls
+ApiCall.instance.rest(
+    document: r'''<document>''',
+    serviceUrl: URL,
+    showLoader: true,
+    methodType: GQLmethod.query, 
+    //supported Methods [guery,mutation,stream]
+    success: (statusCode,data) {
+        print(data);
+    },
+    error: (statusCode, error){},
+);
+```
+
 ## Additional information
 
 This package is developed and maintained by [AveoSoft Pvt Ltd](https://aveosoft.com/).

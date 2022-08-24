@@ -9,8 +9,7 @@ class GQLconfig {
         ErrorLink(onGraphQLError: (request, requestStream, response) {
       if (response.errors != null) {
         for (var error in response.errors!) {
-          print(
-              '[GraphQL error]: Message: ${error.message}, Location: ${error.locations}, Path: ${error.path}');
+          log('[GraphQL error]: Message: ${error.message}, Location: ${error.locations}, Path: ${error.path}');
         }
       }
       // else if (response. != null &&

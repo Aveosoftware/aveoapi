@@ -9,7 +9,7 @@ enum RestMethod {
   patch,
 }
 
-enum GQLmethod { quey, mutation, stream }
+enum GQLmethod { query, mutation, stream }
 
 enum ReturnType {
   string,
