@@ -6,7 +6,7 @@ class AvioInterceptors {
   factory AvioInterceptors(
       {List<Interceptor>? interceptors, BaseOptions? baseOptions}) {
     interceptors = interceptors ?? [];
-    _baseOptions = baseOptions ??
+    baseOptions = baseOptions ??
         BaseOptions(
             connectTimeout: 30000,
             receiveTimeout: 30000,
@@ -16,14 +16,14 @@ class AvioInterceptors {
               }
               return false;
             });
-    dio = Dio(_baseOptions);
+    dio = Dio(baseOptions);
     return instance;
   }
 
   ///To add a list of Interceptor to [Dio] instance. If your [Interceptor] needs
   ///an insatnce of [Dio], use [AvioInterceptors.dio]
   static List<Interceptor> interceptors = [];
-  static BaseOptions? _baseOptions;
+  static BaseOptions? baseOptions;
   static Dio? dio;
   static Dio make() {
     dio?.interceptors.addAll(interceptors);

@@ -1,8 +1,6 @@
 part of 'package:avio/avio.dart';
 
-class ApiCall {
-  ApiCall._instance();
-  static ApiCall get instance => ApiCall._instance();
+mixin REST {
   final CLStatus controller = CLStatus.instance;
   void rest({
     required Map<String, dynamic> params,
@@ -28,15 +26,13 @@ class ApiCall {
                 formValues.files[i].key, formValues.files[i].value));
           }
         }
-        Map<String, dynamic> headerParameters = {
-          // 'Authorization': getPreference.read(ApiConst.TOKEN_PREFERENCE_KEY) ?? ''
-        };
+        Map<String, dynamic> headerParameters = {};
         if (header != null) {
           headerParameters.addEntries(header.entries);
         }
 
         // ignore: always_specify_types
-        Response response;
+        dio_obj.Response response;
         if (methodType == RestMethod.get) {
           response = await AvioInterceptors.make().get(serviceUrl,
               queryParameters: params,
@@ -98,7 +94,7 @@ class ApiCall {
           }
         }
       } on DioError catch (e) {
-        dioErrorCall(dioError: e, error: error);
+        ApiCall.instance.dioErrorCall(dioErrorType: e.type, error: error);
       } finally {
         if (showLoader) {
           controller.isLoading.value = false;
@@ -110,48 +106,6 @@ class ApiCall {
         'message':
             'Could not connect to server, please check your network connection'
       });
-    }
-  }
-
-  void dioErrorCall({
-    required DioError dioError,
-    Function(int?, Map<String, dynamic>)? error,
-  }) {
-    switch (dioError.type) {
-      case DioErrorType.other:
-        error?.call(null, {
-          'title': StringAssets.labelConnectionError,
-          'message': StringAssets.labelErrorWhileMakingRequest,
-        });
-        break;
-      case DioErrorType.connectTimeout:
-        error?.call(null, {
-          'title': StringAssets.labelConnectionTimeout,
-          'message': StringAssets.labelFailedToConnectToServer,
-        });
-        break;
-      case DioErrorType.response:
-        break;
-      case DioErrorType.cancel:
-        break;
-      case DioErrorType.receiveTimeout:
-        error?.call(null, {
-          'title': StringAssets.labelConnectionTimeout,
-          'message': StringAssets.labelFailedToRetriveDataFromTheServer,
-        });
-        break;
-      case DioErrorType.sendTimeout:
-        error?.call(408, {
-          'title': StringAssets.labelConnectionTimeout,
-          'message': StringAssets.labelFailedToSendDataToTheServer,
-        });
-        break;
-      default:
-        error?.call(null, {
-          'title': StringAssets.labelConnectionError,
-          'message': StringAssets.labelErrorWhileMakingRequest,
-        });
-        break;
     }
   }
 }
