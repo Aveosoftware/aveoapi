@@ -53,6 +53,7 @@ class _AvioWrapperState extends State<AvioWrapper> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: AlignmentDirectional.center,
       children: [
         widget.child,
         ValueListenableBuilder<bool>(
@@ -79,33 +80,70 @@ class _AvioWrapperState extends State<AvioWrapper> {
         ValueListenableBuilder<bool>(
             valueListenable: controller.isConnected(),
             builder: (context, value, child) {
-              return Positioned(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-                left: 0,
-                child: Material(
-                  color: value
-                      ? widget.onlineColor ?? Colors.green
-                      : widget.offlineColor ?? Theme.of(context).errorColor,
-                  child: AnimatedContainer(
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.easeIn,
-                    height: value ? 0 : 20,
-                    child: SizedBox(
-                      width: size.width,
-                      child: Center(
-                        child: Text(
-                          value
-                              ? (widget.onlineText ?? 'Back online')
-                              : (widget.offlineText ?? 'OFFLINE'),
-                          style: value
-                              ? widget.onlineTextStyle ?? defaultTextStyle
-                              : widget.offlineTextStyle ?? defaultTextStyle,
+              return kIsWeb
+                  ? AnimatedPositioned(
+                      top: value ? -50 : 20,
+                      curve: Curves.bounceInOut,
+                      duration: const Duration(seconds: 1),
+                      child: SizedBox(
+                        width: 200,
+                        child: Material(
+                          color: Colors.transparent,
+                          child: Chip(
+                            backgroundColor: value
+                                ? widget.onlineColor ?? Colors.green
+                                : widget.offlineColor ??
+                                    Theme.of(context).errorColor,
+                            avatar: Icon(
+                              Icons.info,
+                              color: (value
+                                      ? widget.onlineTextStyle?.color ??
+                                          defaultTextStyle.color
+                                      : widget.offlineTextStyle?.color ??
+                                          defaultTextStyle.color)!
+                                  .withOpacity(.7),
+                            ),
+                            label: Text(
+                              value
+                                  ? (widget.onlineText ?? 'Back online')
+                                  : (widget.offlineText ?? 'OFFLINE'),
+                              style: value
+                                  ? widget.onlineTextStyle ?? defaultTextStyle
+                                  : widget.offlineTextStyle ?? defaultTextStyle,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              );
+                    )
+                  : Positioned(
+                      bottom: MediaQuery.of(context).viewInsets.bottom,
+                      left: 0,
+                      child: Material(
+                        color: value
+                            ? widget.onlineColor ?? Colors.green
+                            : widget.offlineColor ??
+                                Theme.of(context).errorColor,
+                        child: AnimatedContainer(
+                          duration: const Duration(seconds: 1),
+                          curve: Curves.easeIn,
+                          height: value ? 0 : 20,
+                          child: SizedBox(
+                            width: size.width,
+                            child: Center(
+                              child: Text(
+                                value
+                                    ? (widget.onlineText ?? 'Back online')
+                                    : (widget.offlineText ?? 'OFFLINE'),
+                                style: value
+                                    ? widget.onlineTextStyle ?? defaultTextStyle
+                                    : widget.offlineTextStyle ??
+                                        defaultTextStyle,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
             }),
       ],
     );
