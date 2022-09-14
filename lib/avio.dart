@@ -3,7 +3,6 @@ library avio;
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:avio/constants/strings.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -15,7 +14,7 @@ import 'package:gql_dio_link/gql_dio_link.dart';
 import 'package:gql_dio_link/gql_dio_link.dart' as dio_link;
 import 'package:graphql/client.dart';
 import 'package:graphql/client.dart' as gql_obj;
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 part 'package:avio/widgets/cl_wrapper.dart';

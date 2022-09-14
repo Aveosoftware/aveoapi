@@ -39,7 +39,7 @@ class CLStatus {
         _loader.value = false;
       }
     });
-    _listener = InternetConnectionChecker().onStatusChange.listen(
+    _listener = InternetConnectionCheckerPlus().onStatusChange.listen(
       (InternetConnectionStatus status) {
         switch (status) {
           case InternetConnectionStatus.connected:
@@ -59,13 +59,12 @@ class CLStatus {
     if (connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi) {
       try {
-        List<InternetAddress> result =
-            await InternetAddress.lookup('google.com');
+        dio_obj.Response result = await Dio().get('google.com');
 
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        if (result.data.isNotEmpty) {
           _connected.value = true;
         }
-      } on SocketException catch (_) {
+      } on DioError catch (_) {
         _loader.value = false;
         _connected.value = false;
       }
