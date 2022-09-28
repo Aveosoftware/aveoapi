@@ -2,6 +2,7 @@ part of 'package:avio/avio.dart';
 
 class AvioWrapper extends StatefulWidget {
   final Widget child;
+  final bool showConnectivityStatus;
   final Widget? loader;
   final String? onlineText;
   final String? offlineText;
@@ -19,6 +20,7 @@ class AvioWrapper extends StatefulWidget {
   const AvioWrapper(
       {Key? key,
       required this.child,
+      this.showConnectivityStatus = true,
       this.loader,
       this.overlayDecoration,
       this.onlineText,
@@ -77,60 +79,34 @@ class _AvioWrapperState extends State<AvioWrapper> {
             );
           },
         ),
-        ValueListenableBuilder<bool>(
-            valueListenable: controller.isConnected(),
-            builder: (context, value, child) {
-              return kIsWeb
-                  ? AnimatedPositioned(
-                      top: value ? -50 : 20,
-                      curve: Curves.bounceInOut,
-                      duration: const Duration(seconds: 1),
-                      child: SizedBox(
-                        width: 200,
-                        child: Material(
-                          color: Colors.transparent,
-                          child: Chip(
-                            backgroundColor: value
-                                ? widget.onlineColor ?? Colors.green
-                                : widget.offlineColor ??
-                                    Theme.of(context).errorColor,
-                            avatar: Icon(
-                              Icons.info,
-                              color: (value
-                                      ? widget.onlineTextStyle?.color ??
-                                          defaultTextStyle.color
-                                      : widget.offlineTextStyle?.color ??
-                                          defaultTextStyle.color)!
-                                  .withOpacity(.7),
-                            ),
-                            label: Text(
-                              value
-                                  ? (widget.onlineText ?? 'Back online')
-                                  : (widget.offlineText ?? 'OFFLINE'),
-                              style: value
-                                  ? widget.onlineTextStyle ?? defaultTextStyle
-                                  : widget.offlineTextStyle ?? defaultTextStyle,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  : Positioned(
-                      bottom: MediaQuery.of(context).viewInsets.bottom,
-                      left: 0,
-                      child: Material(
-                        color: value
-                            ? widget.onlineColor ?? Colors.green
-                            : widget.offlineColor ??
-                                Theme.of(context).errorColor,
-                        child: AnimatedContainer(
-                          duration: const Duration(seconds: 1),
-                          curve: Curves.easeIn,
-                          height: value ? 0 : 20,
-                          child: SizedBox(
-                            width: size.width,
-                            child: Center(
-                              child: Text(
+        if (widget.showConnectivityStatus)
+          ValueListenableBuilder<bool>(
+              valueListenable: controller.isConnected(),
+              builder: (context, value, child) {
+                return kIsWeb
+                    ? AnimatedPositioned(
+                        top: value ? -50 : 20,
+                        curve: Curves.bounceInOut,
+                        duration: const Duration(seconds: 1),
+                        child: SizedBox(
+                          width: 200,
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Chip(
+                              backgroundColor: value
+                                  ? widget.onlineColor ?? Colors.green
+                                  : widget.offlineColor ??
+                                      Theme.of(context).errorColor,
+                              avatar: Icon(
+                                Icons.info,
+                                color: (value
+                                        ? widget.onlineTextStyle?.color ??
+                                            defaultTextStyle.color
+                                        : widget.offlineTextStyle?.color ??
+                                            defaultTextStyle.color)!
+                                    .withOpacity(.7),
+                              ),
+                              label: Text(
                                 value
                                     ? (widget.onlineText ?? 'Back online')
                                     : (widget.offlineText ?? 'OFFLINE'),
@@ -142,9 +118,38 @@ class _AvioWrapperState extends State<AvioWrapper> {
                             ),
                           ),
                         ),
-                      ),
-                    );
-            }),
+                      )
+                    : Positioned(
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                        left: 0,
+                        child: Material(
+                          color: value
+                              ? widget.onlineColor ?? Colors.green
+                              : widget.offlineColor ??
+                                  Theme.of(context).errorColor,
+                          child: AnimatedContainer(
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.easeIn,
+                            height: value ? 0 : 20,
+                            child: SizedBox(
+                              width: size.width,
+                              child: Center(
+                                child: Text(
+                                  value
+                                      ? (widget.onlineText ?? 'Back online')
+                                      : (widget.offlineText ?? 'OFFLINE'),
+                                  style: value
+                                      ? widget.onlineTextStyle ??
+                                          defaultTextStyle
+                                      : widget.offlineTextStyle ??
+                                          defaultTextStyle,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+              }),
       ],
     );
   }
