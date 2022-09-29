@@ -69,28 +69,32 @@ mixin REST {
 
         //Here you can handle errors based on statusCode
         if (successStatusCodes.contains(response.statusCode)) {
-          try {
-            if (returnType == ReturnType.string && response.data is String) {
+          if (returnType == ReturnType.string && response.data is String) {
+            success.call(response.statusCode, response.data);
+          } else {
+            if (response.data is Map<String, dynamic>) {
               success.call(response.statusCode, response.data);
             } else {
-              if (response.data is Map<String, dynamic>) {
-                success.call(response.statusCode, response.data);
-              } else {
-                success.call(response.statusCode, jsonDecode(response.data));
+              Map<String, dynamic> data = {};
+              try {
+                data = jsonDecode(response.data);
+              } catch (_) {
+                invalidResponse?.call(response.statusCode, response.data);
               }
+              success.call(response.statusCode, data);
             }
-          } catch (_) {
-            invalidResponse?.call(response.statusCode, response.data);
           }
         } else {
-          try {
-            if (response.data is Map<String, dynamic>) {
-              error?.call(response.statusCode, response.data);
-            } else {
-              error?.call(response.statusCode, jsonDecode(response.data));
+          if (response.data is Map<String, dynamic>) {
+            error?.call(response.statusCode, response.data);
+          } else {
+            Map<String, dynamic> data = {};
+            try {
+              data = jsonDecode(response.data);
+            } catch (_) {
+              invalidResponse?.call(response.statusCode, response.data);
             }
-          } catch (_) {
-            invalidResponse?.call(response.statusCode, response.data);
+            error?.call(response.statusCode, data);
           }
         }
       } on DioError catch (e) {
