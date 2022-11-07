@@ -15,7 +15,7 @@ mixin REST {
     Map<String, dynamic>? header,
     FormData? formValues,
   }) async {
-    if (controller.isConnected().value) {
+    if (controller.isConnected.value) {
       try {
         if (showLoader) {
           controller.isLoading.value = true;

@@ -13,7 +13,10 @@ class Avio {
   ///and adds created dio instance with [BaseOptions].
   ///To add dio intereptors, after the [Avio.init] constructor is called, assign
   ///list of interceptors to [AvioInterceptors.interceptors]
-  Avio.init({BaseOptions? baseOptions}) {
+  Avio.init({
+    bool enableAuthInterceptor = false,
+    BaseOptions? baseOptions,
+  }) {
     CLStatus();
     AvioInterceptors(baseOptions: baseOptions);
   }
