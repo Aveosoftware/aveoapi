@@ -25,6 +25,7 @@ class AvioInterceptors {
   static List<Interceptor> interceptors = [];
   static BaseOptions? baseOptions;
   static Dio? dio;
+  static Map<String, AuthInterceptorData> authTnterceptorMap = {};
   static Dio make() {
     dio?.interceptors.addAll(interceptors);
     dio?.interceptors.add(

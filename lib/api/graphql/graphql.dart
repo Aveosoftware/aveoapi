@@ -19,7 +19,7 @@ mixin GQL {
     Object? optimisticResult,
     String? opertationName,
   }) async {
-    if (controller.isConnected().value) {
+    if (controller.isConnected.value) {
       try {
         if (showLoader) {
           controller.isLoading.value = true;

@@ -3,8 +3,8 @@ part of 'package:avio/avio.dart';
 class GQLclient extends GraphQLClient {
   DefaultPolicies? defaultPolicie;
 
-  GQLclient(
-      {required super.link, required super.cache, super.defaultPolicies}) {
+  GQLclient({required link, required cache, defaultPolicies})
+      : super(cache: cache, link: link, defaultPolicies: defaultPolicies) {
     // defaultPolicies;
     // queryManager = QueryManager(
     //   link: link,

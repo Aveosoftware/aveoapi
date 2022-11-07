@@ -81,7 +81,7 @@ class _AvioWrapperState extends State<AvioWrapper> {
         ),
         if (widget.showConnectivityStatus)
           ValueListenableBuilder<bool>(
-              valueListenable: controller.isConnected(),
+              valueListenable: controller.isConnected,
               builder: (context, value, child) {
                 return kIsWeb
                     ? AnimatedPositioned(

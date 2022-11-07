@@ -27,7 +27,7 @@ class CLStatus {
 
   ///Bool value to check intenet connection status.
   ///Do not set this varibale as it might result in undesired behaviour
-  ValueListenable<bool> isConnected() => _connected;
+  ValueListenable<bool> get isConnected => _connected;
 
   void addStreams() {
     _subscription = Connectivity()
