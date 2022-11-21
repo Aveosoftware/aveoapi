@@ -1,26 +1,6 @@
 # This is a generated file; do not edit or check into version control.
-better_player=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/better_player-0.0.83/
 connectivity_plus=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/connectivity_plus-2.3.6/
 connectivity_plus_linux=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_linux-1.3.1/
 connectivity_plus_macos=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_macos-1.2.4/
 connectivity_plus_web=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_web-1.2.3/
 connectivity_plus_windows=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/connectivity_plus_windows-1.2.2/
-flutter_local_notifications=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/flutter_local_notifications-9.7.0/
-open_file=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/open_file-3.2.1/
-package_info_plus=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/package_info_plus-1.4.2/
-package_info_plus_linux=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/package_info_plus_linux-1.0.5/
-package_info_plus_macos=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/package_info_plus_macos-1.3.0/
-package_info_plus_web=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/package_info_plus_web-1.0.5/
-package_info_plus_windows=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/package_info_plus_windows-1.0.5/
-path_provider=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.11/
-path_provider_android=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.17/
-path_provider_ios=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/path_provider_ios-2.0.11/
-path_provider_linux=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/path_provider_linux-2.1.7/
-path_provider_macos=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/path_provider_macos-2.0.6/
-path_provider_windows=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/path_provider_windows-2.0.7/
-permission_handler=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/permission_handler-8.3.0/
-sensors=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/sensors-2.0.3/
-share=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/share-2.0.4/
-wakelock=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/wakelock-0.6.2/
-wakelock_macos=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/wakelock_macos-0.4.0/
-wakelock_web=/Users/aveomac/development/flutter3/.pub-cache/hosted/pub.dartlang.org/wakelock_web-0.4.0/

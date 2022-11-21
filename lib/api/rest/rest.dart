@@ -2,7 +2,7 @@ part of 'package:avio/avio.dart';
 
 mixin REST {
   final CLStatus controller = CLStatus.instance;
-  void rest({
+  Future<bool> rest({
     required Map<String, dynamic> params,
     required String serviceUrl,
     required bool showLoader,
@@ -71,34 +71,42 @@ mixin REST {
         if (successStatusCodes.contains(response.statusCode)) {
           if (returnType == ReturnType.string && response.data is String) {
             success.call(response.statusCode, response.data);
+            return true;
           } else {
             if (response.data is Map<String, dynamic>) {
               success.call(response.statusCode, response.data);
+              return true;
             } else {
               Map<String, dynamic> data = {};
               try {
                 data = jsonDecode(response.data);
               } catch (_) {
                 invalidResponse?.call(response.statusCode, response.data);
+                return false;
               }
               success.call(response.statusCode, data);
+              return true;
             }
           }
         } else {
           if (response.data is Map<String, dynamic>) {
             error?.call(response.statusCode, response.data);
+            return false;
           } else {
             Map<String, dynamic> data = {};
             try {
               data = jsonDecode(response.data);
             } catch (_) {
               invalidResponse?.call(response.statusCode, response.data);
+              return false;
             }
             error?.call(response.statusCode, data);
+            return false;
           }
         }
       } on DioError catch (e) {
         ApiCall.instance.dioErrorCall(dioErrorType: e.type, error: error);
+        return false;
       } finally {
         if (showLoader) {
           controller.isLoading.value = false;
@@ -110,6 +118,7 @@ mixin REST {
         'message':
             'Could not connect to server, please check your network connection'
       });
+      return false;
     }
   }
 }

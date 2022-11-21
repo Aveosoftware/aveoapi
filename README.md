@@ -24,9 +24,12 @@ Avio is working towards making api calls as easy as possible for developers
 ## TODO
 
 ✅ &ensp;Handle REST-API calls  
+✅ &ensp;Optional Auth Interceptor support  
 ✅ &ensp;Handle GraphQL calls  
 ✅ &ensp;Satus widgets  
 ## Usage
+
+### Initializing plugin and adding Interceptors
 
 To use this package, First you need to initailize this Avio.init() preferably in main(). And if you need to add any Dio interceptors, you can add them like this.
 
@@ -47,6 +50,40 @@ void main() async {
 }
 ```
 
+#### Adding Auth Interceptor
+
+Best way to use this feature will be to keep these calls in a method and call that method on:
+1. when you login and sign-up
+2. when you launch app, check if accessToken is available in your secured Storage(or other preferd alternatives) and then call the method
+
+```dart
+AvioInterceptors.authTnterceptorMap.addAll({
+      Endpoints.baseUrl: AuthInterceptorData(
+        accessToken: 'ey......zp'/*Current access token*/,
+        accessTokenExpireCode: /*Status code recived on failed auth access*/,
+        refreshToken: 'zp......tc'/*Current refresh token*/,
+        onSuccess: (success) async {
+          //Here you can store updated access token and refresh token to your storage
+
+          //Callback method must return updated [AuthInterceptorData]
+          return AvioInterceptors.authTnterceptorMap['https://example.com']!
+              .copyWith(
+            accessToken: success['access_token'],
+          );
+        },
+        onRefeshTokenExpire: () {},
+        //Endpoint must start with '/'
+        refreshTokenEndpoint: '/auth/refreshtoken',
+        refreshParamName: 'refresh_token',
+      )
+    });
+
+    //Finally add the [AuthInterceptor] to Interceptors 
+    AvioInterceptors.dio?.interceptors.add(AuthInterceptor());
+```
+
+### Internet Connectin status and global loader
+
 Package also provides a widget to show a loading overlay from anywhere in your code and it also shows a banner for internet connectivity.  
 Here you can style your connectivity message banner and loading overlay
 
@@ -63,11 +100,13 @@ MaterialApp(
 
 ```dart
 //To check internet status
-CLStatus.instance.isConnected().value //returns bool
+CLStatus.instance.isConnected.value //returns bool
 
 //To check or enable or disable loading overlay
 CLStatus.instance.isLoading.value //returns bool
 ```
+
+### Making network calls
 
 ```dart
 //To make REST-API calls
