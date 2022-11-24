@@ -2,7 +2,7 @@ part of 'package:avio/avio.dart';
 
 mixin GQL {
   final CLStatus controller = CLStatus.instance;
-  void graphQL({
+  Future<bool> graphQL({
     required String document,
     required String serviceUrl,
     required bool showLoader,
@@ -46,11 +46,12 @@ mixin GQL {
               'title': 'Error',
               'message': response.exception,
             });
+            return false;
           } else {
             success.call(200, response.data ?? {});
+            return true;
           }
-        }
-        if (methodType == GQLmethod.mutation) {
+        } else if (methodType == GQLmethod.mutation) {
           QueryResult<Object?> response =
               await GQLconfig.getGQLclient(url: serviceUrl, header: header)
                   .runMutation(
@@ -71,11 +72,12 @@ mixin GQL {
               'title': 'Error',
               'message': response.exception,
             });
+            return false;
           } else {
             success.call(200, response.data ?? {});
+            return true;
           }
-        }
-        if (methodType == GQLmethod.stream) {
+        } else if (methodType == GQLmethod.stream) {
           Stream<QueryResult<Object?>> response =
               await GQLconfig.getGQLclient(url: serviceUrl, header: header)
                   .runSubscribe(
@@ -93,10 +95,14 @@ mixin GQL {
                               dioErrorType: DioErrorType.connectTimeout,
                               error: error));
           success.call(null, {'tittle': 'Success', 'message': response});
+          return true;
+        } else {
+          return false;
         }
       } catch (e) {
         error?.call(
             null, {'tittle': 'Error', 'message': 'Something went wrong'});
+        return false;
       } finally {
         if (showLoader) {
           controller.isLoading.value = false;
@@ -108,6 +114,7 @@ mixin GQL {
         'message':
             'Could not connect to server, please check your network connection'
       });
+      return false;
     }
   }
 }

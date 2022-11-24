@@ -4,68 +4,6 @@ class ApiCall with REST, GQL {
   ApiCall._instance();
   static ApiCall get instance => ApiCall._instance();
 
-  @override
-  void rest(
-      {required Map<String, dynamic> params,
-      required String serviceUrl,
-      required bool showLoader,
-      required RestMethod methodType,
-      required Function(int? status, Map<String, dynamic> data) success,
-      Function(int? status, Map<String, dynamic> error)? error,
-      Function(int? status, dynamic error)? invalidResponse,
-      ReturnType returnType = ReturnType.map,
-      List<int> successStatusCodes = const [200],
-      Map<String, dynamic>? header,
-      FormData? formValues}) {
-    super.rest(
-        params: params,
-        serviceUrl: serviceUrl,
-        showLoader: showLoader,
-        methodType: methodType,
-        success: success,
-        error: error,
-        invalidResponse: invalidResponse,
-        returnType: returnType,
-        successStatusCodes: successStatusCodes,
-        header: header,
-        formValues: formValues);
-  }
-
-  @override
-  void graphQL(
-      {required String document,
-      required String serviceUrl,
-      required bool showLoader,
-      required GQLmethod methodType,
-      required Function(int? status, Map<String, dynamic> data) success,
-      Function(int? status, Map<String, dynamic> error)? error,
-      Map<String, dynamic> variables = const {},
-      Map<String, String>? header,
-      ErrorPolicy? errorPolicy,
-      FetchPolicy? fetchPolicy,
-      CacheRereadPolicy? cacheRereadPolicy,
-      Object? Function(Map<String, dynamic> p1)? parserFn,
-      Duration? pollInterval,
-      Object? optimisticResult,
-      String? opertationName}) {
-    super.graphQL(
-        document: document,
-        serviceUrl: serviceUrl,
-        showLoader: showLoader,
-        methodType: methodType,
-        success: success,
-        error: error,
-        variables: variables,
-        header: header,
-        errorPolicy: errorPolicy,
-        fetchPolicy: fetchPolicy,
-        cacheRereadPolicy: cacheRereadPolicy,
-        parserFn: parserFn,
-        pollInterval: pollInterval,
-        optimisticResult: optimisticResult,
-        opertationName: opertationName);
-  }
-
   void dioErrorCall({
     required DioErrorType dioErrorType,
     Function(int?, Map<String, dynamic>)? error,
