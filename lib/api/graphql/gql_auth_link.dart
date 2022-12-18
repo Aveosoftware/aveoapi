@@ -1,4 +1,4 @@
-part of 'package:avio/avio.dart';
+part of 'package:aveo_api/aveo_api.dart';
 
 typedef GetHeaders = Future<Map<String, String>> Function();
 typedef _RequestTransformer = FutureOr<Request> Function(Request request);

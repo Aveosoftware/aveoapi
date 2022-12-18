@@ -1,4 +1,4 @@
-part of 'package:avio/avio.dart';
+part of 'package:aveo_api/aveo_api.dart';
 
 class GQLconfig {
   static GQLclient getGQLclient({
@@ -57,7 +57,7 @@ class GQLconfig {
       link: errorLink.concat(CustomAuthLink(getHeaders: () {
         return header ?? <String, String>{};
       })).concat(DioLink(url,
-          client: AvioInterceptors.dio!,
+          client: AveoApiInterceptors.dio!,
           defaultHeaders: header ?? <String, String>{})),
       cache: GraphQLCache(),
     );

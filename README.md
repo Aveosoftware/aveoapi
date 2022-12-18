@@ -10,9 +10,9 @@ For general information about developing packages, see the Dart guide for
 and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
-# Avio
+# Aveo API
 
-Avio is working towards making api calls as easy as possible for developers
+Aveo API is working towards making api calls as easy as possible for developers
 
 ## Features
 
@@ -23,23 +23,23 @@ Avio is working towards making api calls as easy as possible for developers
 
 ## TODO
 
-✅ &ensp;Handle REST-API calls  
-✅ &ensp;Optional Auth Interceptor support  
-✅ &ensp;Handle GraphQL calls  
-✅ &ensp;Satus widgets  
+1. [x] Handle REST-API calls  
+1. [x] Optional Auth Interceptor support  
+1. [x] Handle GraphQL calls  
+1. [x] Satus widgets  
 ## Usage
 
 ### Initializing plugin and adding Interceptors
 
-To use this package, First you need to initailize this Avio.init() preferably in main(). And if you need to add any Dio interceptors, you can add them like this.
+To use this package, First you need to initailize this AveoApi.init() preferably in main(). And if you need to add any Dio interceptors, you can add them like this.
 
 ```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Avio.init();
-  AvioInterceptors.interceptors = [
+  AveoApi.init();
+  AveoApiInterceptors.interceptors = [
     RetryInterceptor(
-      dio: AvioInterceptors.dio!,
+      dio: AveoApiInterceptors.dio!,
       logPrint: print, // specify log function (optional)
       retries: 3, // retry count (optional)
     )
@@ -57,7 +57,7 @@ Best way to use this feature will be to keep these calls in a method and call th
 2. when you launch app, check if accessToken is available in your secured Storage(or other preferd alternatives) and then call the method
 
 ```dart
-AvioInterceptors.authTnterceptorMap.addAll({
+AveoApiInterceptors.authTnterceptorMap.addAll({
       Endpoints.baseUrl: AuthInterceptorData(
         accessToken: 'ey......zp'/*Current access token*/,
         accessTokenExpireCode: /*Status code recived on failed auth access*/,
@@ -66,7 +66,7 @@ AvioInterceptors.authTnterceptorMap.addAll({
           //Here you can store updated access token and refresh token to your storage
 
           //Callback method must return updated [AuthInterceptorData]
-          return AvioInterceptors.authTnterceptorMap['https://example.com']!
+          return AveoApiInterceptors.authTnterceptorMap['https://example.com']!
               .copyWith(
             accessToken: success['access_token'],
           );
@@ -79,7 +79,7 @@ AvioInterceptors.authTnterceptorMap.addAll({
     });
 
     //Finally add the [AuthInterceptor] to Interceptors 
-    AvioInterceptors.dio?.interceptors.add(AuthInterceptor());
+    AveoApiInterceptors.dio?.interceptors.add(AuthInterceptor());
 ```
 
 ### Internet Connectin status and global loader
@@ -93,7 +93,7 @@ MaterialApp(
       title: "Application",
       ...
       builder: (context, child) {
-        return AvioWrapper(child: child!);
+        return AveoApiWrapper(child: child!);
       },
     );
 ```

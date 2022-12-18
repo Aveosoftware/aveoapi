@@ -1,4 +1,4 @@
-part of 'package:avio/avio.dart';
+part of 'package:aveo_api/aveo_api.dart';
 
 mixin REST {
   final CLStatus controller = CLStatus.instance;
@@ -34,21 +34,21 @@ mixin REST {
         // ignore: always_specify_types
         dio_obj.Response response;
         if (methodType == RestMethod.get) {
-          response = await AvioInterceptors.make().get(serviceUrl,
+          response = await AveoApiInterceptors.make().get(serviceUrl,
               queryParameters: params,
               options: Options(
                 headers: headerParameters,
                 responseType: ResponseType.plain,
               ));
         } else if (methodType == RestMethod.put) {
-          response = await AvioInterceptors.make().put(serviceUrl,
+          response = await AveoApiInterceptors.make().put(serviceUrl,
               data: params,
               options: Options(
                 headers: headerParameters,
                 responseType: ResponseType.plain,
               ));
         } else if (methodType == RestMethod.delete) {
-          response = await AvioInterceptors.make().delete(serviceUrl,
+          response = await AveoApiInterceptors.make().delete(serviceUrl,
               data: params, options: Options(headers: headerParameters));
         }
         // else if (methodType == RestMethod.download) {
@@ -56,10 +56,10 @@ mixin REST {
         //     data: params, options: Options(headers: headerParameters));
         // }
         else if (methodType == RestMethod.patch) {
-          response = await AvioInterceptors.make().patch(serviceUrl,
+          response = await AveoApiInterceptors.make().patch(serviceUrl,
               data: params, options: Options(headers: headerParameters));
         } else {
-          response = await AvioInterceptors.make().post(serviceUrl,
+          response = await AveoApiInterceptors.make().post(serviceUrl,
               data: formValues ?? params,
               options: Options(
                 headers: headerParameters,

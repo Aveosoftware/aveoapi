@@ -1,6 +1,6 @@
-part of 'package:avio/avio.dart';
+part of 'package:aveo_api/aveo_api.dart';
 
-class AvioWrapper extends StatefulWidget {
+class AveoApiWrapper extends StatefulWidget {
   final Widget child;
   final bool showConnectivityStatus;
   final Widget? loader;
@@ -17,7 +17,7 @@ class AvioWrapper extends StatefulWidget {
   ///
   ///MaterialApp/GetMaterialApp/CupertinoApp/WidgetApp builder with this widget.
   ///You need to initialize [Avio.init] before using this widget.
-  const AvioWrapper(
+  const AveoApiWrapper(
       {Key? key,
       required this.child,
       this.showConnectivityStatus = true,
@@ -32,10 +32,10 @@ class AvioWrapper extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<AvioWrapper> createState() => _AvioWrapperState();
+  State<AveoApiWrapper> createState() => _AveoApiWrapperState();
 }
 
-class _AvioWrapperState extends State<AvioWrapper> {
+class _AveoApiWrapperState extends State<AveoApiWrapper> {
   late Size size;
   CLStatus controller = CLStatus.instance;
   final TextStyle defaultTextStyle = const TextStyle(
