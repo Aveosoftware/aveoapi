@@ -20,12 +20,12 @@ mixin REST {
         if (showLoader) {
           controller.isLoading.value = true;
         }
-        if (formValues != null) {
-          for (int i = 0; i < formValues.files.length; i++) {
-            formValues.files.add(MapEntry<String, MultipartFile>(
-                formValues.files[i].key, formValues.files[i].value));
-          }
-        }
+        // if (formValues != null) {
+        //   for (int i = 0; i < formValues.files.length; i++) {
+        //     formValues.files.add(MapEntry<String, MultipartFile>(
+        //         formValues.files[i].key, formValues.files[i].value));
+        //   }
+        // }
         Map<String, dynamic> headerParameters = {};
         if (header != null) {
           headerParameters.addEntries(header.entries);
