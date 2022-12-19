@@ -1,11 +1,11 @@
-import 'package:avio/avio.dart';
+import 'package:aveo_api/aveo_api.dart';
 import 'package:dio/dio.dart';
 
 class AuthInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     Iterable<MapEntry<String, AuthInterceptorData>> authdata =
-        AvioInterceptors.authTnterceptorMap.entries.where(
+        AveoApiInterceptors.authTnterceptorMap.entries.where(
       (e) => options.path.contains(e.key),
     );
 
@@ -19,7 +19,7 @@ class AuthInterceptor extends Interceptor {
   @override
   void onResponse(Response err, ResponseInterceptorHandler handler) async {
     Iterable<MapEntry<String, AuthInterceptorData>> authdata =
-        AvioInterceptors.authTnterceptorMap.entries.where(
+        AveoApiInterceptors.authTnterceptorMap.entries.where(
       (e) => err.requestOptions.path.contains(e.key),
     );
     if (authdata.isNotEmpty) {
@@ -36,7 +36,7 @@ class AuthInterceptor extends Interceptor {
               authdata.first.value.onSuccess
                   .call(response.data)
                   .then((newAuthData) async {
-                AvioInterceptors.authTnterceptorMap[authdata.first.key] =
+                AveoApiInterceptors.authTnterceptorMap[authdata.first.key] =
                     newAuthData;
                 try {
                   var resp = await retry(err.requestOptions, newAuthData);

@@ -1,4 +1,4 @@
-part of 'package:avio/avio.dart';
+part of 'package:aveo_api/aveo_api.dart';
 
 class ApiCall with REST, GQL {
   ApiCall._instance();

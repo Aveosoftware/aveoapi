@@ -1,4 +1,4 @@
-part of 'package:avio/avio.dart';
+part of 'package:aveo_api/aveo_api.dart';
 
 ///Keeps check on internect connection and loading overlay
 class CLStatus {
@@ -26,7 +26,7 @@ class CLStatus {
   ValueNotifier<bool> get isLoading => _loader;
 
   ///Bool value to check intenet connection status.
-  ///Do not set this varibale as it might result in undesired behaviour
+  ///Do not set this varibale as it might result in undesired behaveo_apiur
   ValueListenable<bool> get isConnected => _connected;
 
   void addStreams() {

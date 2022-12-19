@@ -1,4 +1,4 @@
-part of 'package:avio/avio.dart';
+part of 'package:aveo_api/aveo_api.dart';
 
 enum RestMethod {
   post,

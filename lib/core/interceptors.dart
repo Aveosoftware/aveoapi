@@ -1,9 +1,9 @@
-part of 'package:avio/avio.dart';
+part of 'package:aveo_api/aveo_api.dart';
 
-class AvioInterceptors {
-  AvioInterceptors._instance();
-  static AvioInterceptors get instance => AvioInterceptors._instance();
-  factory AvioInterceptors(
+class AveoApiInterceptors {
+  AveoApiInterceptors._instance();
+  static AveoApiInterceptors get instance => AveoApiInterceptors._instance();
+  factory AveoApiInterceptors(
       {List<Interceptor>? interceptors, BaseOptions? baseOptions}) {
     interceptors = interceptors ?? [];
     baseOptions = baseOptions ??
@@ -21,7 +21,7 @@ class AvioInterceptors {
   }
 
   ///To add a list of Interceptor to [Dio] instance. If your [Interceptor] needs
-  ///an insatnce of [Dio], use [AvioInterceptors.dio]
+  ///an insatnce of [Dio], use [AveoApiInterceptors.dio]
   static List<Interceptor> interceptors = [];
   static BaseOptions? baseOptions;
   static Dio? dio;
