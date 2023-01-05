@@ -19,6 +19,7 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 export 'package:dio/src/multipart_file.dart';
 export 'package:dio/src/form_data.dart';
+export 'package:dio/src/options.dart' show ResponseType;
 
 part 'package:aveo_api/widgets/cl_wrapper.dart';
 part 'package:aveo_api/constants/api_consts.dart';
